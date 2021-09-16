@@ -2,6 +2,7 @@ import pygame
 from color import Color
 from font import Font
 from button import Button
+from slideBar import SlideBar
 
 class ControlPanel:
 	def __init__(self, screen, cell_size, background_color=Color.white):
@@ -15,6 +16,8 @@ class ControlPanel:
 		self.playstop_bt = Button(x=self.x+100, y=100, text='play', font=Font.comic_small, text_color=Color.white, background_color=Color.green)
 		self.cellsize_bt = Button(x=self.x+100, y=150, text=str(cell_size), font=Font.comic_small, text_color=Color.white, background_color=Color.black)
 		# self.reset_bt = Button(x=self.x+100, y=200, text='reset', font=Font.comic_small, text_color=Color.white, background_color=Color.red)
+		self.speed_bar = SlideBar(x=self.x+100, y=250, name='Time period', font=Font.comic_small, text_color=Color.black, bar_lenght=200,
+								bar_color=Color.gray, point_color=Color.dark_gray, min_label='fast', max_label='slow', value=1, min_value=1, max_value=50)
 
 	def reset_time(self):
 		self.time = 0
@@ -37,10 +40,12 @@ class ControlPanel:
 		self.playstop_bt.draw_button(self.display)
 		self.cellsize_bt.draw_button(self.display)
 		# self.reset_bt.draw_button(self.display)
+		self.speed_bar.draw_bar(display=self.display)
 
-	def check_event(self, event):
+	def check_event(self, event, period):
 		bt = None
 		status = None
+		adjust_speed, new_period = self.speed_bar.update_value(event, period)
 		if self.playstop_bt.click(event):
 			bt = 'playpause'
 			if self.playstop_bt.text == 'play':
@@ -65,6 +70,9 @@ class ControlPanel:
 				self.cellsize_bt.text = 'S'
 				self.cellsize_bt.padding = 5
 				status = 'S'
+		elif adjust_speed:
+			bt = 'speed'
+			status = new_period
 		# elif self.reset_bt.click(event):
 		# 	bt = 'reset'
 		# 	status = 'stop'
