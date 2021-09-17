@@ -50,6 +50,24 @@ class CellPanel:
 			for r in range(self.row):
 				self.cells[c][r].life = self.cells[c][r].next_life
 
+	def set_cell(self, event):
+		x, y = pygame.mouse.get_pos()
+		target_col = x//self.size
+		target_row = y//self.size
+		if target_col > self.col or target_row > self.row:
+			return(False)
+		elif event.type == pygame.MOUSEBUTTONDOWN:
+			if pygame.mouse.get_pressed()[0]:	# left click = set life
+				self.cells[target_col][target_row].life = True
+			elif pygame.mouse.get_pressed()[2]:		# right click = set dead
+				self.cells[target_col][target_row].life = False
+		
+	def clear(self):
+		for c in range(self.col):
+			for r in range(self.row):
+				self.cells[c][r].life = False
+				self.cells[c][r].next_life = False
+
 	def draw_panel(self):
 		for c in range(self.col):
 			for r in range(self.row):

@@ -11,16 +11,24 @@ def play_game(screen, cellPanel, controlPanel, game):
 			if event.type == pygame.QUIT:
 				run = False
 
+			if game.state == 'set':
+				cellPanel.set_cell(event)
+
 			# check for user trigger event
 			bt, status = controlPanel.check_event(event, game.period)
 			if bt == 'cellsize':
 				cellPanel = CellPanel(screen=screen, size=status)
 				controlPanel.reset_time()
+				game.state = 'set'
+			elif bt == 'clear':
+				cellPanel.clear()
+				controlPanel.reset_time()
+				game.state = 'set'
 			else:
 				game.process_event(bt, status)
 
 		# playing next generation over time
-		if game.play_next():
+		if game.is_play():
 			controlPanel.tick_time()
 			cellPanel.update_cell()
 
@@ -35,9 +43,9 @@ def play_game(screen, cellPanel, controlPanel, game):
 if __name__ == '__main__':
 	pygame.init()
 	
-	screen = Screen()
-	cellPanel = CellPanel(screen=screen, size='M')
+	screen = Screen()	
 	controlPanel = ControlPanel(screen=screen, cell_size='M')
+	cellPanel = CellPanel(screen=screen, size='M')
 	game = Game()
 	
 	play_game(screen, cellPanel, controlPanel, game)
