@@ -16,7 +16,9 @@ def play_game(screen, cellPanel, controlPanel, game):
 
 			# check for user trigger event
 			bt, status = controlPanel.check_event(event, game)
-			if bt == 'cellsize':
+			if bt == 'quit':
+				run = False 
+			elif bt == 'cellsize':
 				game.cell_size = status
 				cellPanel = CellPanel(screen=screen, game=game)
 				controlPanel.reset_time()

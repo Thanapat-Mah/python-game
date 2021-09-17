@@ -20,6 +20,7 @@ class ControlPanel:
 								bar_color=Color.gray, point_color=Color.dark_gray, min_label='fast', max_label='slow', value=game.period, min_value=1, max_value=100)
 		self.init_life_bar = SlideBar(x=self.x+50, y=110, name='Initial life cell', font=Font.comic_small, text_color=Color.black, bar_lenght=200,
 								bar_color=Color.gray, point_color=Color.dark_gray, min_label='0%', max_label='100%', value=game.init_life, min_value=0, max_value=100)
+		self.quit_bt = Button(x=screen.width-50, y=0, text='X', font=Font.comic_normal, text_color=Color.white, background_color=Color.red)
 
 	def reset_time(self):
 		self.time = 0
@@ -44,6 +45,7 @@ class ControlPanel:
 		self.cellsize_bt.draw_button(self.display)
 		self.speed_bar.draw_bar(display=self.display)
 		self.init_life_bar.draw_bar(display=self.display)
+		self.quit_bt.draw_button(self.display)
 
 	def check_event(self, event, game):
 		bt = None
@@ -92,5 +94,8 @@ class ControlPanel:
 		elif adjust_init_life:
 			bt = 'init_life'
 			status = new_init_life
+
+		elif self.quit_bt.click(event):
+			bt = 'quit'
 
 		return(bt, status)
