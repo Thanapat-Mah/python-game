@@ -24,7 +24,7 @@ class SlideBar:
 		# bar
 		self.surface = pygame.Surface((self.bar_lenght, 6))
 		self.surface.fill(self.bar_color)
-		self.bar = pygame.Rect(self.x, self.y+show_name_size[1]+5, self.bar_lenght, 20)
+		self.bar = pygame.Rect(self.x-5, self.y+show_name_size[1]+5, self.bar_lenght+10, 20)
 		display.blit(self.surface, (self.x, self.y+show_name_size[1]+12))
 		# point
 		point_x = self.x+self.bar_lenght*(self.value-self.min_value)/(self.max_value-self.min_value)
@@ -44,12 +44,12 @@ class SlideBar:
 		
 		# update value
 		if pygame.mouse.get_pressed()[0]:
-			if self.bar.collidepoint(x, y):			
+			if self.bar.collidepoint(x, y):
 				clicked = True
 				if x <= self.x:
 					self.value = self.min_value
 				elif x > self.x+self.bar_lenght:
 					self.value = self.max_value
 				else:
-					self.value = int(self.min_value + (self.max_value-self.min_value)*(x-self.x)/self.bar_lenght)		
+					self.value = int(self.min_value + (self.max_value-self.min_value)*(x-self.x)/self.bar_lenght)
 		return(clicked, self.value)

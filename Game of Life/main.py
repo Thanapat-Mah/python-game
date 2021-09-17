@@ -15,9 +15,10 @@ def play_game(screen, cellPanel, controlPanel, game):
 				cellPanel.set_cell(event)
 
 			# check for user trigger event
-			bt, status = controlPanel.check_event(event, game.period)
+			bt, status = controlPanel.check_event(event, game)
 			if bt == 'cellsize':
-				cellPanel = CellPanel(screen=screen, size=status)
+				game.cell_size = status
+				cellPanel = CellPanel(screen=screen, game=game)
 				controlPanel.reset_time()
 				game.state = 'set'
 			elif bt == 'clear':
@@ -43,9 +44,10 @@ def play_game(screen, cellPanel, controlPanel, game):
 if __name__ == '__main__':
 	pygame.init()
 	
-	screen = Screen()	
-	controlPanel = ControlPanel(screen=screen, cell_size='M')
-	cellPanel = CellPanel(screen=screen, size='M')
 	game = Game()
+	screen = Screen(fullscreen=True)	
+	controlPanel = ControlPanel(screen=screen, game=game)
+	cellPanel = CellPanel(screen=screen, game=game)
+	
 	
 	play_game(screen, cellPanel, controlPanel, game)

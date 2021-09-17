@@ -4,24 +4,24 @@ from color import Color
 
 class Cell:
 	def __init__(self, init_life_percent):
-		if random.randint(0, 100) <= init_life_percent:
+		if random.randint(1, 100) <= init_life_percent:
 			self.life = True
 		else:
 			self.life = False
 		self.next_life = False
 
 class CellPanel:
-	def __init__(self, screen, init_life_percent=30, size='M'):
+	def __init__(self, screen, game):
 		self.display = screen.display
-		if size == 'S':
+		if game.cell_size == 'S':
 			self.size = 10
-		elif size == 'M':
+		elif game.cell_size == 'M':
 			self.size = 20
-		elif size == 'L':
+		elif game.cell_size == 'L':
 			self.size = 40
 		self.col = int(screen.width*(1-screen.CPRatio)//self.size + 1)
 		self.row = screen.height//self.size + 1
-		self.cells = [[Cell(init_life_percent=init_life_percent) for r in range(self.row)] for c in range(self.col)]
+		self.cells = [[Cell(init_life_percent=game.init_life) for r in range(self.row)] for c in range(self.col)]
 
 	def count_around_life(self, col, row):
 		check = [-1, 0, 1]
@@ -54,13 +54,12 @@ class CellPanel:
 		x, y = pygame.mouse.get_pos()
 		target_col = x//self.size
 		target_row = y//self.size
-		if target_col > self.col or target_row > self.row:
+		if target_col > self.col-1 or target_row > self.row-1:
 			return(False)
-		elif event.type == pygame.MOUSEBUTTONDOWN:
-			if pygame.mouse.get_pressed()[0]:	# left click = set life
-				self.cells[target_col][target_row].life = True
-			elif pygame.mouse.get_pressed()[2]:		# right click = set dead
-				self.cells[target_col][target_row].life = False
+		if pygame.mouse.get_pressed()[0]:	# left click = set life
+			self.cells[target_col][target_row].life = True
+		elif pygame.mouse.get_pressed()[2]:		# right click = set dead
+			self.cells[target_col][target_row].life = False
 		
 	def clear(self):
 		for c in range(self.col):
