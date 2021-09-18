@@ -19,6 +19,10 @@ class Button:
 		self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])
 		display.blit(self.surface, (self.x, self.y))
 
+	def adjust_middle_panel(self, screen):
+		self.draw_button(screen.display)
+		self.x = int(screen.width*(1-screen.CPRatio) + (screen.width*screen.CPRatio - self.size[0])/2)
+
 	def click(self, event):
 		x, y = pygame.mouse.get_pos()
 		if event.type == pygame.MOUSEBUTTONDOWN:
@@ -26,3 +30,17 @@ class Button:
 				if self.rect.collidepoint(x, y):
 					return(True)
 		return(False)
+
+class QuitButton(Button):
+	def adjust_position(self, screen):
+		super().draw_button(screen.display)
+		self.y = 0
+		self.x = screen.width - self.size[0]
+
+	def click(self, event):
+		x, y = pygame.mouse.get_pos()
+		if event.type == pygame.MOUSEBUTTONDOWN:
+			if pygame.mouse.get_pressed()[0]:
+				if self.rect.collidepoint(x, y):
+					pygame.quit()
+					quit()

@@ -4,6 +4,7 @@ from controlPanel import ControlPanel
 
 class Screen:
 	def __init__(self, width=1500, height=750, fullscreen=False, CPRatio=0.3, background_color=Color.black):
+		self.fullscreen = fullscreen
 		if fullscreen:
 			infoObject = pygame.display.Info()
 			self.width = infoObject.current_w
@@ -21,8 +22,3 @@ class Screen:
 	def update_screen(self, cellPanel):
 		self.refresh_background()
 		cellPanel.draw_panel()
-		# controlPanel = ControlPanel(screen=self)
-		# controlPanel.draw_panel()
-
-
-		# pygame.display.update()

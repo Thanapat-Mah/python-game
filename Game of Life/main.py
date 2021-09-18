@@ -16,9 +16,7 @@ def play_game(screen, cellPanel, controlPanel, game):
 
 			# check for user trigger event
 			bt, status = controlPanel.check_event(event, game)
-			if bt == 'quit':
-				run = False 
-			elif bt == 'cellsize':
+			if bt == 'cellsize':
 				game.cell_size = status
 				cellPanel = CellPanel(screen=screen, game=game)
 				controlPanel.reset_time()
@@ -42,6 +40,7 @@ def play_game(screen, cellPanel, controlPanel, game):
 		pygame.display.update()
 		pygame.time.wait(1)		
 	pygame.quit()
+	quit()
 
 if __name__ == '__main__':
 	pygame.init()
