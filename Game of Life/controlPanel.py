@@ -2,6 +2,8 @@ import pygame
 from color import Color
 from font import Font
 from button import Button
+from button import TwoStateButton
+from button import CellSizeButton
 from button import QuitButton
 from slideBar import SlideBar
 
@@ -14,10 +16,10 @@ class ControlPanel:
 		self.height = screen.height
 		self.background_color = background_color
 		self.time = 0
-		self.playstop_bt = Button(x=self.x+280, y=305, text='play', font=Font.comic_small, text_color=Color.white, background_color=Color.green)
+		self.playstop_bt = TwoStateButton(x=self.x+280, y=305, text_list=['play', 'stop'], font=Font.comic_small, text_color_list=[Color.white, Color.white], background_color_list=[Color.green, Color.red])
 		self.clear_bt = Button(x=self.x+200, y=500, text='clear', font=Font.comic_small, text_color=Color.white, background_color=Color.red)
 		self.clear_bt.adjust_middle_panel(screen)
-		self.cellsize_bt = Button(x=self.x+290, y=195, text=str(game.cell_size), font=Font.comic_small, text_color=Color.white, background_color=Color.black)
+		self.cellsize_bt = CellSizeButton(x=self.x+290, y=195, text=str(game.cell_size), font=Font.comic_small, text_color=Color.white, background_color=Color.black)
 		self.speed_bar = SlideBar(x=self.x+50, y=290, name='Time period', font=Font.comic_small, text_color=Color.black, bar_lenght=200,
 								bar_color=Color.gray, point_color=Color.dark_gray, min_label='fast', max_label='slow', value=game.period, min_value=1, max_value=100)
 		self.init_life_bar = SlideBar(x=self.x+50, y=180, name='Initial life cell', font=Font.comic_small, text_color=Color.black, bar_lenght=200,
@@ -64,16 +66,14 @@ class ControlPanel:
 			bt = 'state'
 			if self.playstop_bt.text == 'stop':
 				status = 'stop'
-				self.playstop_bt.text = 'play'
-				self.playstop_bt.background_color = Color.green
-				self.clear_bt.background_color = Color.red
-				self.cellsize_bt.background_color = Color.black
+				self.playstop_bt.switchState()
+				self.clear_bt.mark_enable()
+				self.cellsize_bt.mark_enable()
 			elif self.playstop_bt.text != 'stop':
 				status = 'play'
-				self.playstop_bt.text = 'stop'
-				self.playstop_bt.background_color = Color.red
-				self.clear_bt.background_color = Color.gray
-				self.cellsize_bt.background_color = Color.gray
+				self.playstop_bt.switchState()
+				self.clear_bt.mark_disable()
+				self.cellsize_bt.mark_disable()
 
 		elif self.clear_bt.click(event) and self.playstop_bt.text == 'play':
 			bt = 'clear'
@@ -82,22 +82,13 @@ class ControlPanel:
 			bt = 'cellsize'
 			if self.cellsize_bt.text == 'S':
 				status = 'M'
-				self.cellsize_bt.text = 'M'
-				self.cellsize_bt.padding = 10
-				self.cellsize_bt.x -= 5
-				self.cellsize_bt.y -= 5
+				self.cellsize_bt.switchState()
 			elif self.cellsize_bt.text == 'M':
 				status = 'L'
-				self.cellsize_bt.text = 'L'
-				self.cellsize_bt.padding = 15
-				self.cellsize_bt.x -= 5
-				self.cellsize_bt.y -= 5
+				self.cellsize_bt.switchState()
 			elif self.cellsize_bt.text == 'L':
 				status = 'S'
-				self.cellsize_bt.text = 'S'
-				self.cellsize_bt.padding = 5
-				self.cellsize_bt.x += 10
-				self.cellsize_bt.y += 10
+				self.cellsize_bt.switchState()
 
 		elif adjust_speed:
 			bt = 'period'
