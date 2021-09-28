@@ -58,8 +58,8 @@ class ControlPanel:
 	def check_event(self, event, game):
 		bt = None
 		status = None
-		adjust_speed, new_period = self.speed_bar.update_value(event, game.period)
-		adjust_init_life, new_init_life = self.init_life_bar.update_value(event, game.init_life)
+		adjust_speed, new_period = self.speed_bar.update_value(event)
+		adjust_init_life, new_init_life = self.init_life_bar.update_value(event)
 		if self.fullscreen:
 			self.quit_bt.click(event)
 		if self.playstop_bt.click(event):

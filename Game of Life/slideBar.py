@@ -38,7 +38,7 @@ class SlideBar:
 		show_max_label_size = self.show_max_label.get_size()
 		display.blit(self.show_max_label, (self.x+self.bar_lenght-show_max_label_size[0], self.y+show_name_size[1]+30))
 
-	def update_value(self, event, value):
+	def update_value(self, event):
 		clicked = False
 		x, y = pygame.mouse.get_pos()
 		
