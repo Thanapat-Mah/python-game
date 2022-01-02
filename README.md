@@ -8,10 +8,10 @@ The player must use the set of provided number and basic math operation (+, -, *
 
 ## Minesweeper
 The typical and well-known **Minesweeper** game.  
-Left mouse click to mark the flag, Right moust click to reveal the cell.  
-Find all the mine and beat the game!
+Right mouse click to mark the flag, Left mouse click to reveal the cell.  
+Find all mines and beat the game!
 
 ## Game of Life
-The application from Conway's Game of Life, one of the most popular mathematic game.  
+The application from **Conway's Game of Life**, one of the most popular mathematic game.  
 It also know as a zero-player game since it's not require any player to run the game.  
-All you must do is create the initial pattern, then start the and enjoy the game.
+All you must do is create the initial pattern, then start the game and enjoy!
